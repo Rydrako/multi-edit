@@ -81,10 +81,11 @@ func undo_multi_edit (property : String, values : Array[Variant], targets : Arra
 func _set_multi_edit_mode (multi_edit : bool) -> void:
 	inspector.multi_edit_mode = multi_edit
 	inspector.resources = current_selected_resources
-	
-	var index = current_selected_resources.find(EditorInterface.get_inspector().get_edited_object())
-	if index >= 0:
-		EditorInterface.edit_resource(current_selected_resources[index])
-		current_selected_resources[index].notify_property_list_changed()
-	
 	in_multi_edit_mode = multi_edit
+	
+	if multi_edit:
+		var index = current_selected_resources.find(EditorInterface.get_inspector().get_edited_object())
+		if index >= 0:
+			EditorInterface.edit_resource(current_selected_resources[index])
+			current_selected_resources[index].notify_property_list_changed()
+	
