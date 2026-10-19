@@ -83,7 +83,8 @@ func _set_multi_edit_mode (multi_edit : bool) -> void:
 	inspector.resources = current_selected_resources
 	
 	var index = current_selected_resources.find(EditorInterface.get_inspector().get_edited_object())
-	EditorInterface.edit_resource(current_selected_resources[index])
-	current_selected_resources[index].notify_property_list_changed()
+	if index >= 0:
+		EditorInterface.edit_resource(current_selected_resources[index])
+		current_selected_resources[index].notify_property_list_changed()
 	
 	in_multi_edit_mode = multi_edit
