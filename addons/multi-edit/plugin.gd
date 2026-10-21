@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 	var selection := EditorInterface.get_selected_paths()
 	if selection.size() > 1:
 		if not _current_selected_paths.size() == selection.size():
-			_current_selected_paths = selection
+			
 			_current_selected_resources.clear()
 			for path in selection:
 				if ResourceLoader.exists(path): # checks if the selected file isn't a folder
@@ -39,6 +39,7 @@ func _process(delta: float) -> void:
 			_in_multi_edit_mode = _all_files_are_same_type()
 	else:
 		_in_multi_edit_mode = false
+	_current_selected_paths = selection
 
 
 func _set_multi_edit_mode (multi_edit : bool) -> void:
@@ -51,6 +52,9 @@ func _set_multi_edit_mode (multi_edit : bool) -> void:
 		if index >= 0:
 			EditorInterface.edit_resource(_current_selected_resources[index])
 			_current_selected_resources[index].notify_property_list_changed()
+	elif ResourceLoader.exists(EditorInterface.get_selected_paths()[0]):
+		EditorInterface.edit_resource(ResourceLoader.load(EditorInterface.get_selected_paths()[0]))
+	
 
 
 func _all_files_are_same_type () -> bool:
@@ -74,12 +78,12 @@ func _on_property_edited (property : String) -> void:
 	
 	var current_resource := EditorInterface.get_inspector().get_edited_object() as Resource
 	var value := current_resource.get(property)
-	_undo_redo.create_action("Multi-set "+property)
+	_undo_redo.create_action("Multi-Set "+property, UndoRedo.MERGE_ALL)
 	
 	var original_values : Array
 	for r in _current_selected_resources:
 		original_values.append(r.get(property))
-		
+	
 	_undo_redo.add_do_method(self, "apply_multi_edit", property, value, _current_selected_resources)
 	_undo_redo.add_undo_method(self, "undo_multi_edit", property, original_values, _current_selected_resources)
 	
@@ -88,9 +92,10 @@ func _on_property_edited (property : String) -> void:
 
 func apply_multi_edit (property : String, value : Variant, targets : Array[Resource]) -> void:
 	for t in targets:
-		t.set(property, value)
+		t.set_deferred(property, value)
 
 
 func undo_multi_edit (property : String, values : Array[Variant], targets : Array[Resource]) -> void:
 	for i in targets.size():
-		targets[i].set(property, values[i])
+		targets[i].set_deferred(property, values[i])
+		
