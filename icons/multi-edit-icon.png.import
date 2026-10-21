@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://csyq2djnmeimj"
-path="res://.godot/imported/multi-edit-icon.png-611bbf59167f784e13c0b9114b76e324.ctex"
+path="res://.godot/imported/multi-edit-icon.png-8bf3beb061a98d647796f1f4ae190a32.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/icons/multi-edit-icon.png"
-dest_files=["res://.godot/imported/multi-edit-icon.png-611bbf59167f784e13c0b9114b76e324.ctex"]
+source_file="res://icons/multi-edit-icon.png"
+dest_files=["res://.godot/imported/multi-edit-icon.png-8bf3beb061a98d647796f1f4ae190a32.ctex"]
 
 [params]
 
