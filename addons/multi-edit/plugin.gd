@@ -45,16 +45,19 @@ func _process(delta: float) -> void:
 func _set_multi_edit_mode (multi_edit : bool) -> void:
 	_inspector.multi_edit_mode = multi_edit
 	_inspector.resources = _current_selected_resources
-	_in_multi_edit_mode = multi_edit
 	
 	if multi_edit:
-		var index = _current_selected_resources.find(EditorInterface.get_inspector().get_edited_object())
-		if index >= 0:
-			EditorInterface.edit_resource(_current_selected_resources[index])
-			_current_selected_resources[index].notify_property_list_changed()
-	elif ResourceLoader.exists(EditorInterface.get_selected_paths()[0]):
-		EditorInterface.edit_resource(ResourceLoader.load(EditorInterface.get_selected_paths()[0]))
+		var index = max(_current_selected_resources.find(EditorInterface.get_inspector().get_edited_object()), 0)
+		EditorInterface.edit_resource(_current_selected_resources[index])
+		_current_selected_resources[index].notify_property_list_changed()
+	elif multi_edit != _in_multi_edit_mode:
+		var selection = EditorInterface.get_selected_paths()
+		if selection.size() > 0 and ResourceLoader.exists(selection[0]):
+			var resource = ResourceLoader.load(selection[0])
+			EditorInterface.edit_resource(resource)
+			resource.notify_property_list_changed()
 	
+	_in_multi_edit_mode = multi_edit
 
 
 func _all_files_are_same_type () -> bool:
