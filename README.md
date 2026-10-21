@@ -1,5 +1,5 @@
 # Multi Edit for Godot
-<p><img src="https://github.com/Rydrako/multi-edit/blob/main/addons/icons/multi-edit-icon.png?raw=true" alt="Logo" width="200"></p>
+<p><img src="https://github.com/Rydrako/multi-edit/blob/main/icons/multi-edit-icon.png?raw=true" alt="Logo" width="200"></p>
 
 Allows you to mass edit the properties of any resources intuitively right within Godot's Inspector! Multi-edit mode activates simply by selecting multiple files of the same type in the file system.
 
